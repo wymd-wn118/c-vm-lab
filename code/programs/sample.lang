@@ -1,0 +1,12 @@
+// 编译器骨架示例：int/float 变量、算术、打印、返回
+func main() {
+  int a;
+  int b;
+  float x;
+  a = 3;
+  b = 4;
+  x = 2.0;
+  print(a + b);
+  print(x);
+  return a + b;
+}

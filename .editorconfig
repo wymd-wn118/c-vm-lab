@@ -1,0 +1,20 @@
+# Source files use UTF-8 with BOM; other text files use UTF-8.
+# MSVC builds also explicitly use /utf-8.
+root = true
+
+[*]
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.{c,h}]
+charset = utf-8-bom
+indent_style = space
+indent_size = 4
+
+[makefile]
+indent_style = tab
+
+[*.md]
+indent_style = space
+indent_size = 4

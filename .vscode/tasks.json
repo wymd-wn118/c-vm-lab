@@ -1,0 +1,134 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build cli (gcc)",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-std=gnu99",
+                "-O0",
+                "-Wall",
+                "-g",
+                "-I${workspaceFolder}/code",
+                "-I${workspaceFolder}/code/DEBUG",
+                "-I${workspaceFolder}/code/cli_win",
+                "-I${workspaceFolder}/code/compiler",
+                "-I${workspaceFolder}/code/os/VM",
+                "-I${workspaceFolder}/code/os/loader",
+                "-I${workspaceFolder}/code/os/Memory_Manager",
+                "-I${workspaceFolder}/code/os/Process_Scheduler",
+                "-I${workspaceFolder}/code/PAL",
+                "-I${workspaceFolder}/code/PAL/windows",
+                "${workspaceFolder}/code/cli_win/cli.c",
+                "${workspaceFolder}/code/cli_win/job.c",
+                "${workspaceFolder}/code/os/Process_Scheduler/Process_Scheduler.c",
+                "${workspaceFolder}/code/os/loader/Loader.c",
+                "${workspaceFolder}/code/os/VM/VM.c",
+                "${workspaceFolder}/code/os/VM/VM_MM.c",
+                "${workspaceFolder}/code/os/Memory_Manager/MM.c",
+                "${workspaceFolder}/code/PAL/PAL.c",
+                "${workspaceFolder}/code/compiler/compiler.c",
+                "${workspaceFolder}/code/compiler/lexer.c",
+                "${workspaceFolder}/code/compiler/parser.c",
+                "${workspaceFolder}/code/compiler/codegen.c",
+                "${workspaceFolder}/code/compiler/assembler.c",
+                "${workspaceFolder}/code/compiler/emit.c",
+                "${workspaceFolder}/code/compiler/error.c",
+                "${workspaceFolder}/code/compiler/strpool.c",
+                "${workspaceFolder}/code/compiler/comp_mem.c",
+                "-o",
+                "${workspaceFolder}/cli.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "用 gcc 编译 CLI（cli.c 自带 main，不编译 main.c）"
+        },
+        {
+            "label": "build & run cli (gcc)",
+            "type": "shell",
+            "command": "${workspaceFolder}/cli.exe",
+            "dependsOn": "build cli (gcc)",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "先编译再运行 CLI"
+        },
+        {
+            "label": "build cli (cl)",
+            "type": "shell",
+            "command": "cl.exe",
+            "args": [
+                "/nologo",
+                "/Zi",
+                "/utf-8",
+                "/I${workspaceFolder}\\code",
+                "/I${workspaceFolder}\\code\\DEBUG",
+                "/I${workspaceFolder}\\code\\cli_win",
+                "/I${workspaceFolder}\\code\\compiler",
+                "/I${workspaceFolder}\\code\\os\\VM",
+                "/I${workspaceFolder}\\code\\os\\loader",
+                "/I${workspaceFolder}\\code\\os\\Memory_Manager",
+                "/I${workspaceFolder}\\code\\os\\Process_Scheduler",
+                "/I${workspaceFolder}\\code\\PAL",
+                "/I${workspaceFolder}\\code\\PAL\\windows",
+                "${workspaceFolder}\\code\\cli_win\\cli.c",
+                "${workspaceFolder}\\code\\cli_win\\job.c",
+                "${workspaceFolder}\\code\\os\\Process_Scheduler\\Process_Scheduler.c",
+                "${workspaceFolder}\\code\\os\\loader\\Loader.c",
+                "${workspaceFolder}\\code\\os\\VM\\VM.c",
+                "${workspaceFolder}\\code\\os\\VM\\VM_MM.c",
+                "${workspaceFolder}\\code\\os\\Memory_Manager\\MM.c",
+                "${workspaceFolder}\\code\\PAL\\PAL.c",
+                "${workspaceFolder}\\code\\compiler\\compiler.c",
+                "${workspaceFolder}\\code\\compiler\\lexer.c",
+                "${workspaceFolder}\\code\\compiler\\parser.c",
+                "${workspaceFolder}\\code\\compiler\\codegen.c",
+                "${workspaceFolder}\\code\\compiler\\assembler.c",
+                "${workspaceFolder}\\code\\compiler\\emit.c",
+                "${workspaceFolder}\\code\\compiler\\error.c",
+                "${workspaceFolder}\\code\\compiler\\strpool.c",
+                "${workspaceFolder}\\code\\compiler\\comp_mem.c",
+                "/Fe${workspaceFolder}\\cli_msvc.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "detail": "用 MSVC 编译 CLI（/utf-8，源文件为 UTF-8+BOM）"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc.exe 生成活动文件",
+            "command": "gcc",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "编译并生成当前打开文件（通用单文件任务）"
+        }
+    ]
+}

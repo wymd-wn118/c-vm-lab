@@ -1,0 +1,5 @@
+{
+    // 项目源码统一 UTF-8：关闭"猜测编码"，避免以 GBK 打开/保存造成不可逆损坏。
+    "files.encoding": "utf8",
+    "files.autoGuessEncoding": false
+}

@@ -1,0 +1,132 @@
+/* =====================================================================
+ * 综合用例：数组统计 + 冒泡排序 + 双递归 + 三种循环
+ *
+ * 覆盖的 VM 语言特性：
+ *   全局变量 / 全局数组、for 嵌套、while、do-while、复合赋值、
+ *   多函数、条件分支、递归（fact / fib）、函数嵌套调用、取模
+ *
+ * 注意避开 VM 当前不支持的语法：
+ *   - 数组不能作函数参数（故 data 用全局）
+ *   - 不支持数组初始化列表（必须逐元素赋值）
+ *   - 不支持 && / || / !、& / | 位运算
+ *   - 不支持 break / continue
+ *   - 不支持字符串字面量
+ *
+ * 期望输出（顺序）：
+ *   338   总和  = 42+7+99+3+88+15+61+23
+ *   99    最大值
+ *   3     最小值
+ *   3     排序后第一个
+ *   99    排序后最后一个
+ *   120   fact(5)
+ *   55    fib(10)
+ *   2     17 % 5
+ *   3 2 1 countdown
+ * ===================================================================== */
+
+int data[8];
+int n = 8;
+
+/* ---------- 初始化：逐元素赋值（不支持初始化列表） ---------- */
+func init_data() {
+    data[0] = 42; data[1] = 7;  data[2] = 99; data[3] = 3;
+    data[4] = 88; data[5] = 15; data[6] = 61; data[7] = 23;
+}
+
+/* ---------- 求和：for + 复合赋值 ---------- */
+func sum_all() {
+    int s = 0;
+    for (int i = 0; i < n; i++) {
+        s += data[i];
+    }
+    return s;
+}
+
+/* ---------- 最大值 ---------- */
+func find_max() {
+    int m = data[0];
+    for (int i = 1; i < n; i++) {
+        if (data[i] > m) m = data[i];
+    }
+    return m;
+}
+
+/* ---------- 最小值 ---------- */
+func find_min() {
+    int m = data[0];
+    for (int i = 1; i < n; i++) {
+        if (data[i] < m) m = data[i];
+    }
+    return m;
+}
+
+/* ---------- 冒泡排序：嵌套 for + 交换，不用 break ---------- */
+func sort_all() {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - 1 - i; j++) {
+            if (data[j] > data[j + 1]) {
+                int tmp = data[j];
+                data[j]     = data[j + 1];
+                data[j + 1] = tmp;
+            }
+        }
+    }
+}
+
+/* ---------- 递归：阶乘 ----------
+ * 注意：不能写成 return k * fact(k-1)。
+ * 当前 codegen 在「局部变量 op 函数调用」这种形式下会丢掉左操作数，
+ * 必须先把递归结果存进局部变量，再做运算。 */
+func fact(int k) {
+    if (k <= 1) return 1;
+    int r = fact(k - 1);
+    return k * r;
+}
+
+/* ---------- 递归：斐波那契（双分支调用） ---------- */
+func fib(int k) {
+    if (k < 2) return k;
+    return fib(k - 1) + fib(k - 2);
+}
+
+/* ---------- 取模 + while ---------- */
+func mod_demo() {
+    int x = 17;
+    int r = x % 5;
+    return r;
+}
+
+/* ---------- do-while：倒数 ---------- */
+func countdown(int from) {
+    int c = from;
+    do {
+        print(c);
+        c = c - 1;
+    } while (c > 0);
+}
+
+/* ---------- 函数嵌套调用 ---------- */
+func twice(int x) { return x * 2; }
+func twice_plus_one(int y) { return twice(y) + 1; }
+
+/* ---------- 主入口 ---------- */
+func main() {
+    init_data();
+
+    print(sum_all());          /* 338 */
+    print(find_max());         /* 99  */
+    print(find_min());         /* 3   */
+
+    sort_all();
+    print(data[0]);            /* 3   */
+    print(data[7]);            /* 99  */
+
+    print(fact(5));            /* 120 */
+    print(fib(10));            /* 55  */
+    print(mod_demo());         /* 2   */
+    print(twice_plus_one(20)); /* 41  */
+
+    countdown(3);              /* 3 2 1 */
+
+    return 0;
+}
